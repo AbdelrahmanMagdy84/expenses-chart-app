@@ -1,0 +1,67 @@
+import 'package:flutter/material.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
+
+void main() {
+  runApp(ExpensesApp());
+}
+
+class ExpensesApp extends StatelessWidget {
+  final List<charts.Series<dynamic, String>> seriesList = createSampleData();
+  final bool animate = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: new charts.BarChart(
+          seriesList,
+          animate: animate,
+          defaultRenderer: new charts.BarRendererConfig(
+              cornerStrategy: const charts.ConstCornerStrategy(30)),
+        ),
+      ),
+    );
+  }
+  // @override
+  // Widget build(BuildContext context) {
+  //   return MaterialApp(
+  //     home: SafeArea(
+  //       child: Scaffold(
+  //         appBar: AppBar(
+  //           backgroundColor: Colors.brown[100],
+  //           title: const Text('Expenses App'),
+  //         ),
+  //         body: Center(
+  //           child: Text('hello mother hacker'),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+
+  /// Create one series with sample hard coded data.
+  static List<charts.Series<OrdinalSales, String>> createSampleData() {
+    final data = [
+      new OrdinalSales('2014', 5),
+      new OrdinalSales('2015', 25),
+      new OrdinalSales('2016', 100),
+      new OrdinalSales('2017', 75),
+    ];
+    return [
+      new charts.Series<OrdinalSales, String>(
+        id: 'Sales',
+        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+        domainFn: (OrdinalSales sales, _) => sales.year,
+        measureFn: (OrdinalSales sales, _) => sales.sales,
+        data: data,
+      )
+    ];
+  }
+}
+
+class OrdinalSales {
+  final String year;
+  final int sales;
+
+  OrdinalSales(this.year, this.sales);
+}
