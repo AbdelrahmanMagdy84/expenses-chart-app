@@ -1,10 +1,12 @@
-import './transaction_model.dart';
+import '../models/transaction_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../main.dart';
 
 class ListItemWidget extends StatelessWidget {
+  Function deleteTransaction;
   Transaction currentTransaction;
-  ListItemWidget(this.currentTransaction);
+  ListItemWidget(this.currentTransaction, this.deleteTransaction);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -46,9 +48,19 @@ class ListItemWidget extends StatelessWidget {
                     ],
                   ),
                   Container(
-                      child: Text(
-                          DateFormat.yMd().format(currentTransaction.date))),
-                  Icon(Icons.delete),
+                    child: Text(
+                      DateFormat.yMMMd().format(currentTransaction.date),
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      deleteTransaction(currentTransaction);
+                    },
+                    icon: Icon(
+                      Icons.delete,
+                      color: Theme.of(context).errorColor,
+                    ),
+                  ),
                 ],
               ),
             ),
