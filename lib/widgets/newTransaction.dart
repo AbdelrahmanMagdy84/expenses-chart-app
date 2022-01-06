@@ -5,8 +5,8 @@ import 'package:intl/intl.dart';
 class NewTransaction extends StatefulWidget {
   Function addNewTransaction;
   List<Transaction> transactions;
-  var titleController;
-  var amountController;
+  final titleController;
+  final amountController;
   NewTransaction(
       {required this.transactions,
       required this.addNewTransaction,
@@ -28,56 +28,61 @@ class _NewTransactionState extends State<NewTransaction> {
       onTap: () {},
       behavior: HitTestBehavior.opaque,
       child: Container(
-        height: 500,
+        height: 400,
+        padding: const EdgeInsets.all(10),
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              TextField(
-                controller: widget.titleController,
-                autofocus: false,
-                decoration: InputDecoration(label: Text('Title')),
-                keyboardType: TextInputType.text,
-              ),
-              TextField(
-                controller: widget.amountController,
-                autofocus: false,
-                keyboardType: TextInputType.number,
-                cursorColor: Theme.of(context).primaryColor,
-                decoration: InputDecoration(
-                  label: const Text("Amount"),
+          child: Container(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom + 10),
+            child: Column(
+              children: [
+                TextField(
+                  controller: widget.titleController,
+                  autofocus: false,
+                  decoration: const InputDecoration(label: Text('Title')),
+                  keyboardType: TextInputType.text,
                 ),
-              ),
-              datePickerOpend == false
-                  ? TextButton(
-                      onPressed: () {
-                        displayDatePicker(context);
-                      },
-                      child: const Text('Select date '))
-                  : Text(
-                      DateFormat.yMMMd().format(pdate),
-                    ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).primaryColor),
-                child: const Text('Submit'),
-                onPressed: () {
-                  final String newTitle = widget.titleController.text;
-                  final double newAmount =
-                      double.parse(widget.amountController.text);
-                  if (newTitle.isEmpty || newAmount <= 0) {
-                    return;
-                  }
-                  widget.addNewTransaction(
-                      trans: widget.transactions,
-                      id: Transaction.getNewId(),
-                      amount: newAmount,
-                      title: newTitle,
-                      date: pdate);
+                TextField(
+                  controller: widget.amountController,
+                  autofocus: false,
+                  keyboardType: TextInputType.number,
+                  cursorColor: Theme.of(context).primaryColor,
+                  decoration: const InputDecoration(
+                    label: Text("Amount"),
+                  ),
+                ),
+                datePickerOpend == false
+                    ? TextButton(
+                        onPressed: () {
+                          displayDatePicker(context);
+                        },
+                        child: const Text('Select date '))
+                    : Text(
+                        DateFormat.yMMMd().format(pdate),
+                      ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).primaryColor),
+                  child: const Text('Submit'),
+                  onPressed: () {
+                    final String newTitle = widget.titleController.text;
+                    final double newAmount =
+                        double.parse(widget.amountController.text);
+                    if (newTitle.isEmpty || newAmount <= 0) {
+                      return;
+                    }
+                    widget.addNewTransaction(
+                        trans: widget.transactions,
+                        id: Transaction.getNewId(),
+                        amount: newAmount,
+                        title: newTitle,
+                        date: pdate);
 
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            ),
           ),
         ),
       ),

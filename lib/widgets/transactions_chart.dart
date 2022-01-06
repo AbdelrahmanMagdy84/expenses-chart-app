@@ -23,20 +23,14 @@ class TransactionsChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         width: double.infinity,
-        height: 300,
-        child: Flex(
-          children: [
-            Expanded(
-                child: charts.TimeSeriesChart(
-              generateSeries(data),
-              animate: true,
-              animationDuration: const Duration(seconds: 1),
-              defaultRenderer: new charts.BarRendererConfig<DateTime>(),
-              defaultInteractions: false,
-              behaviors: [charts.SelectNearest(), charts.DomainHighlighter()],
-            )),
-          ],
-          direction: Axis.horizontal,
+        // height: 300,
+        child: charts.TimeSeriesChart(
+          generateSeries(data),
+          animate: true,
+          animationDuration: const Duration(seconds: 1),
+          defaultRenderer: charts.BarRendererConfig<DateTime>(),
+          defaultInteractions: false,
+          behaviors: [charts.SelectNearest(), charts.DomainHighlighter()],
         ));
     ;
   }

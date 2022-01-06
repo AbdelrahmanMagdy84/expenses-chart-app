@@ -1,9 +1,12 @@
 import 'package:expenses_chart_app/widgets/newTransaction.dart';
+import 'package:flutter/services.dart';
 import './screens/homeScreen.dart';
 import 'package:flutter/material.dart';
 import 'models/transaction_model.dart';
 
 void main() {
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(ExpensesApp());
 }
 
@@ -16,17 +19,17 @@ class ExpensesApp extends StatelessWidget {
         primaryColor: Colors.brown[100],
         primarySwatch: Colors.brown,
       ),
-      home: buildScafold(),
+      home: BuildScafold(),
     );
   }
 }
 
-class buildScafold extends StatefulWidget {
+class BuildScafold extends StatefulWidget {
   @override
-  State<buildScafold> createState() => _buildScafoldState();
+  State<BuildScafold> createState() => _BuildScafoldState();
 }
 
-class _buildScafoldState extends State<buildScafold> {
+class _BuildScafoldState extends State<BuildScafold> {
   List<Transaction> transactions = [];
 
   var titleController = TextEditingController();
@@ -41,39 +44,39 @@ class _buildScafoldState extends State<buildScafold> {
       required String title,
       required DateTime date}) {
     setState(() {
-      trans.add(
-          new Transaction(amount: amount, id: id, title: title, date: date));
-      amountController = new TextEditingController();
-      titleController = new TextEditingController();
+      trans.add(Transaction(amount: amount, id: id, title: title, date: date));
+      amountController = TextEditingController();
+      titleController = TextEditingController();
     });
   }
 
+  var appBar = AppBar(
+    title: const Text('Expenses App'),
+    backgroundColor: Colors.brown[100],
+  );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Expenses App'),
-        backgroundColor: Colors.brown[100],
-      ),
+      appBar: appBar,
       body: transactions.isEmpty
-          ? Center(
+          ? const Center(
               child: Text('Press + start adding your expenses'),
             )
-          : HomeScreen(transactions, deleteTransaction),
-      floatingActionButton: Builder(
-          builder: (context) => FloatingActionButton(
-                onPressed: () {
-                  startAddNewTransaction(
-                    context,
-                  );
-                },
-                backgroundColor: Colors.brown[100],
-                child: Icon(
-                  Icons.add,
-                  color: Colors.white,
-                ),
-              )),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+          : HomeScreen(
+              transactions, deleteTransaction, appBar.preferredSize.height),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          startAddNewTransaction(
+            context,
+          );
+        },
+        backgroundColor: Colors.brown[100],
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
@@ -82,6 +85,7 @@ class _buildScafoldState extends State<buildScafold> {
   ) {
     showModalBottomSheet(
         context: context,
+        isScrollControlled: true,
         builder: (_) {
           return NewTransaction(
             transactions: transactions,
