@@ -6,8 +6,9 @@ import 'package:flutter/material.dart';
 class HomeScreen extends StatefulWidget {
   List<Transaction> trasnactions;
   Function deleteTransaction;
+  var appBareHeight;
+  HomeScreen(this.trasnactions, this.deleteTransaction, this.appBareHeight);
 
-  HomeScreen(this.trasnactions, this.deleteTransaction);
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -15,14 +16,23 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    var mediaQuery = MediaQuery.of(context);
+    var reservedHeight = (mediaQuery.size.height -
+        widget.appBareHeight -
+        mediaQuery.padding.top);
     return SingleChildScrollView(
       child: Column(children: [
-        TransactionsChart(
-            Transaction.generateChartTransactions(widget.trasnactions)),
         SizedBox(
-          height: 10,
+          height: reservedHeight * 0.2,
+          child: TransactionsChart(
+            Transaction.generateChartTransactions(widget.trasnactions),
+          ),
         ),
-        TransactionsList(widget.trasnactions, widget.deleteTransaction)
+        SizedBox(
+          height: reservedHeight * 0.76,
+          child:
+              TransactionsList(widget.trasnactions, widget.deleteTransaction),
+        )
       ]),
     );
   }

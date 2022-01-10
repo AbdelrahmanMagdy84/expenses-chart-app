@@ -8,12 +8,17 @@ class TransactionsList extends StatelessWidget {
   TransactionsList(this.transactions, this.deleteTransaction);
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ...transactions.map((e) {
-          return ListItemWidget(e, deleteTransaction);
-        }).toList()
-      ],
-    );
+    return ListView.builder(
+        itemCount: transactions.length,
+        itemBuilder: (context, index) =>
+            ListItemWidget(transactions[index], deleteTransaction));
   }
 }
+
+// Column(
+//       children: [
+//         ...transactions.map((e) {
+//           return ListItemWidget(e,deleteTransaction);
+//         }).toList()
+//       ],
+//     );

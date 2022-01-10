@@ -1,7 +1,6 @@
 import '../models/transaction_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../main.dart';
 
 class ListItemWidget extends StatelessWidget {
   Function deleteTransaction;
@@ -16,13 +15,13 @@ class ListItemWidget extends StatelessWidget {
           children: [
             Card(
               child: Container(
-                padding: EdgeInsets.symmetric(vertical: 5),
+                padding: const EdgeInsets.symmetric(vertical: 5),
                 color: Colors.red[200],
                 width: double.infinity,
                 child: Text(
                   currentTransaction.title,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
                   ),
@@ -30,14 +29,14 @@ class ListItemWidget extends StatelessWidget {
               ),
             ),
             Container(
-              height: 40,
+              // height: 40,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Icon(Icons.attach_money),
+                      const Icon(Icons.attach_money),
                       Container(
                         width: 55,
                         child: Text(
@@ -52,15 +51,31 @@ class ListItemWidget extends StatelessWidget {
                       DateFormat.yMMMd().format(currentTransaction.date),
                     ),
                   ),
-                  IconButton(
-                    onPressed: () {
-                      deleteTransaction(currentTransaction);
-                    },
-                    icon: Icon(
-                      Icons.delete,
-                      color: Theme.of(context).errorColor,
-                    ),
-                  ),
+                  MediaQuery.of(context).size.width > 340
+                      ? TextButton.icon(
+                          onPressed: () {
+                            deleteTransaction(currentTransaction);
+                          },
+                          icon: Icon(
+                            Icons.delete,
+                            color: Theme.of(context).errorColor,
+                          ),
+                          label: const FittedBox(
+                            child: Text("Delete"),
+                          ),
+                          style: ButtonStyle(
+                              foregroundColor: MaterialStateProperty.all(
+                                  Theme.of(context).errorColor)),
+                        )
+                      : IconButton(
+                          onPressed: () {
+                            deleteTransaction(currentTransaction);
+                          },
+                          icon: Icon(
+                            Icons.delete,
+                            color: Theme.of(context).errorColor,
+                          ),
+                        ),
                 ],
               ),
             ),
