@@ -51,10 +51,6 @@ class _buildScafoldState extends State<buildScafold> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Expenses App'),
-        backgroundColor: Colors.brown[100],
-      ),
       body: transactions.isEmpty
           ? Center(
               child: Text('Press + start adding your expenses'),

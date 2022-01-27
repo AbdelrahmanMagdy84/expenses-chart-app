@@ -15,15 +15,28 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(children: [
-        TransactionsChart(
-            Transaction.generateChartTransactions(widget.trasnactions)),
-        SizedBox(
-          height: 10,
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          expandedHeight: 300,
+          pinned: true,
+          backgroundColor: Colors.brown[100],
+          flexibleSpace: FlexibleSpaceBar(
+            background: TransactionsChart(
+              Transaction.generateChartTransactions(widget.trasnactions),
+            ),
+            centerTitle: true,
+            title: Text("Expenses"),
+          ),
         ),
-        TransactionsList(widget.trasnactions, widget.deleteTransaction)
-      ]),
+        SliverList(
+            delegate: SliverChildListDelegate([
+          SizedBox(
+            height: 10,
+          ),
+          TransactionsList(widget.trasnactions, widget.deleteTransaction)
+        ]))
+      ],
     );
   }
 }
