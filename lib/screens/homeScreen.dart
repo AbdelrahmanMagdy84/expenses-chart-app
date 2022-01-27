@@ -34,7 +34,10 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(
             height: 10,
           ),
-          TransactionsList(widget.trasnactions, widget.deleteTransaction)
+          TransactionsList(widget.trasnactions, widget.deleteTransaction),
+          SizedBox(
+            height: 70,
+          ),
         ]))
       ],
     );
